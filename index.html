@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Título actualizado -->
-    <title>Simulador Tutor IA - V17 (Choice 2.3)</title>
+    <title>Simulador Tutor IA - V17 (Choice 2.3 & Focus Mode)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -91,7 +90,6 @@
              font-size: 0.9rem; background-color: #fdfdfd;
         }
         .justification-content.open { display: block; }
-        /* FIN NUEVO */
 
 
         /* General Reused Styles */
@@ -111,7 +109,6 @@
         .open { display: block; }
         .accordion-btn .toggle-icon { transition: transform 0.2s; }
         .accordion-btn[aria-expanded="true"] .toggle-icon { transform: rotate(180deg); }
-        /* CORRECCIÓN: Estilo para el ícono (SVG) cuando ya fue renderizado por lucide */
         .accordion-btn[aria-expanded="true"] .lucide-chevron-down { transform: rotate(180deg); }
 
 
@@ -137,152 +134,60 @@
         }
         .delete-question-btn:hover { background-color: #fecaca; }
 
-        /* --- INICIO: Estilos para "Modo Estudio" (Traídos de V6) --- */
-        
-        /* Estilos para el Navegador de Temas (Modo Estudio) */
+        /* --- INICIO: Estilos para "Modo Estudio" --- */
         .syllabus-browser .unit-toggle-btn {
-            font-size: 1.25rem; /* text-xl */
-            font-weight: 600; /* font-semibold */
-            color: #1f2937; /* gray-800 */
-            margin-bottom: 8px;
-            border-bottom-width: 1px;
+            font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 8px; border-bottom-width: 1px;
         }
-        .syllabus-browser .unit-topics-container {
-            border-left: 2px solid #e5e7eb; /* gray-200 */
-        }
+        .syllabus-browser .unit-topics-container { border-left: 2px solid #e5e7eb; }
         .syllabus-topic-btn {
-            display: block;
-            width: 100%;
-            text-align: left;
-            padding: 12px 16px;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #374151; /* gray-700 */
-            border-radius: 8px;
-            transition: background-color 0.2s;
-            cursor: pointer;
+            display: block; width: 100%; text-align: left; padding: 12px 16px; font-size: 1rem; font-weight: 500;
+            color: #374151; border-radius: 8px; transition: background-color 0.2s; cursor: pointer;
         }
-        .syllabus-topic-btn:hover {
-            background-color: #f4f7f6; /* nuestro bg-body */
-        }
-        .syllabus-topic-btn:not(:last-child) {
-            margin-bottom: 4px;
-        }
+        .syllabus-topic-btn:hover { background-color: #f4f7f6; }
+        .syllabus-topic-btn:not(:last-child) { margin-bottom: 4px; }
         
-        /* Estilos para la Guía de Estudio (Modo Estudio) */
         .guide-summary {
-            font-size: 1.125rem; /* text-lg */
-            color: #374151; /* gray-700 */
-            background-color: #f9fafb; /* gray-50 */
-            padding: 16px;
-            border-radius: 8px;
-            border-left: 4px solid #2563eb; /* blue-600 */
-            margin-bottom: 24px;
+            font-size: 1.125rem; color: #374151; background-color: #f9fafb; padding: 16px;
+            border-radius: 8px; border-left: 4px solid #2563eb; margin-bottom: 24px;
         }
         .subtopic-block {
-            background-color: white;
-            border: 1px solid #e5e7eb; /* gray-200 */
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            background-color: white; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .subtopic-header {
-            padding: 16px;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 16px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;
         }
-        .subtopic-header h4 {
-            font-size: 1.25rem; /* text-xl */
-            font-weight: 600; /* font-semibold */
-            color: #111827; /* gray-900 */
-        }
+        .subtopic-header h4 { font-size: 1.25rem; font-weight: 600; color: #111827; }
         .importance-badge {
-            padding: 4px 10px;
-            border-radius: 9999px;
-            font-size: 0.75rem; /* text-xs */
-            font-weight: 700; /* font-bold */
-            text-transform: uppercase;
+            padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
         }
-        .importance-badge-alta { background-color: #fee2e2; color: #b91c1c; } /* red */
-        .importance-badge-media { background-color: #fef3c7; color: #b45309; } /* amber */
-        .importance-badge-baja { background-color: #dbeafe; color: #1e40af; } /* blue */
+        .importance-badge-alta { background-color: #fee2e2; color: #b91c1c; }
+        .importance-badge-media { background-color: #fef3c7; color: #b45309; }
+        .importance-badge-baja { background-color: #dbeafe; color: #1e40af; }
         
-        .subtopic-body {
-            padding: 16px;
-        }
-        .ai-justification {
-            font-size: 0.875rem; /* text-sm */
-            color: #4b5563; /* gray-600 */
-            font-style: italic;
-            margin-bottom: 16px;
-        }
-        /* CSS para el item de pregunta */
-        .question-item {
-            border-top: 1px solid #f3f4f6; /* gray-100 */
-            padding-top: 16px;
-        }
-        .question-item .question-text {
-            font-weight: 600;
-            color: #1f2937;
-        }
-        /* CSS para el loader de sub-pregunta */
-        .sub-question-loader {
-            display: none; /* Oculto por defecto */
-        }
+        .subtopic-body { padding: 16px; }
+        .ai-justification { font-size: 0.875rem; color: #4b5563; font-style: italic; margin-bottom: 16px; }
+        .question-item { border-top: 1px solid #f3f4f6; padding-top: 16px; }
+        .question-item .question-text { font-weight: 600; color: #1f2937; }
+        .sub-question-loader { display: none; }
 
         .generate-more-btn {
-            margin-top: 16px;
-            width: 100%;
-            padding: 10px;
-            font-weight: 500;
-            background-color: #f3f4f6; /* gray-100 */
-            border-top: 1px solid #e5e7eb;
-            color: #1f2937;
-            transition: background-color 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-            cursor: pointer;
+            margin-top: 16px; width: 100%; padding: 10px; font-weight: 500; background-color: #f3f4f6;
+            border-top: 1px solid #e5e7eb; color: #1f2937; transition: background-color 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; cursor: pointer;
         }
-        .generate-more-btn:hover {
-            background-color: #e5e7eb; /* gray-200 */
-        }
-        .sub-question-container {
-            padding: 0 16px 16px 16px; /* Padding para preguntas generadas */
-        }
-        /* CSS para el loader de respuesta y audio */
+        .generate-more-btn:hover { background-color: #e5e7eb; }
+        .sub-question-container { padding: 0 16px 16px 16px; }
+        
         .answer-loader {
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #3498db;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            margin-left: 8px;
+            border: 2px solid #f3f3f3; border-top: 2px solid #3498db; border-radius: 50%; width: 16px; height: 16px;
+            animation: spin 1s linear infinite; display: inline-block; margin-left: 8px;
         }
         .answer-text {
-            font-size: 0.9rem;
-            color: #1f2937; /* gray-800 */
-            margin-top: 10px;
-            border-radius: 4px;
-            white-space: pre-wrap; /* Mantiene saltos de línea y espacios */
-            background-color: #f9fafb; /* gray-50 */
-            border: 1px solid #e5e7eb;
-            border-left: 4px solid #2563eb; /* blue-600 */
-            padding: 10px 14px;
+            font-size: 0.9rem; color: #1f2937; margin-top: 10px; border-radius: 4px; white-space: pre-wrap;
+            background-color: #f9fafb; border: 1px solid #e5e7eb; border-left: 4px solid #2563eb; padding: 10px 14px;
         }
-        .audio-player-container audio {
-            width: 100%;
-            height: 38px;
-            margin-top: 8px;
-        }
-        /* --- FIN: Estilos para "Modo Estudio" --- */
+        .audio-player-container audio { width: 100%; height: 38px; margin-top: 8px; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -374,7 +279,7 @@
             <!-- TAB: MODO CHOICE (NUEVA ESTRUCTURA) -->
             <div id="tab-choice" class="tab-panel space-y-6">
 
-                <!-- 1. Selección de Modo (NUEVO) -->
+                <!-- 1. Selección de Modo -->
                 <div id="choice-mode-selection" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div id="btn-load-choice" class="mode-card">
                         <svg data-lucide="upload-cloud" class="w-12 h-12 text-purple-600 mb-4"></svg>
@@ -388,13 +293,13 @@
                     </div>
                 </div>
 
-                <!-- 2. Pantalla Cargar/Generar (NUEVO) -->
+                <!-- 2. Pantalla Cargar/Generar -->
                 <div id="choice-load-container" class="hidden space-y-6">
                     <button id="back-mode-choice-1" class="text-sm text-blue-600 font-bold flex items-center hover:underline">
                         <svg data-lucide="arrow-left" class="w-4 h-4 mr-1"></svg> Volver a selección
                     </button>
                     
-                    <!-- Sección A: Analizar (UI Antigua) -->
+                    <!-- Sección A: Analizar -->
                     <div class="p-6 border rounded-lg bg-gray-50">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">1. Analizar Exámenes Existentes</h3>
                         <p class="text-sm text-gray-500 mb-4">Sube PDFs de choice o pega el texto para que la IA lo analice y clasifique.</p>
@@ -411,7 +316,7 @@
                         </div>
                     </div>
 
-                    <!-- Sección B: Generar (NUEVO) -->
+                    <!-- Sección B: Generar -->
                     <div class="p-6 border rounded-lg bg-gray-50">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">2. Generar Choice desde Teoría</h3>
                         <p class="text-sm text-gray-500 mb-4">Crea preguntas nuevas usando el contenido de tu pestaña "Material" (Teoría y Syllabus).</p>
@@ -430,13 +335,13 @@
                     </div>
                 </div>
 
-                <!-- 3. Pantalla Practicar (UI Antigua) -->
-             <div id="choice-practice-container" class="hidden">
+                <!-- 3. Pantalla Practicar -->
+                <div id="choice-practice-container" class="hidden">
                     <div class="flex justify-between items-center mb-4">
                         <button id="back-mode-choice-2" class="text-sm text-blue-600 font-bold flex items-center hover:underline">
                             <svg data-lucide="arrow-left" class="w-4 h-4 mr-1"></svg> Volver a selección
                         </button>
-                        <button id="toggle-sidebar-btn" class_attack="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200" title="Modo Enfocado">
+                        <button id="toggle-sidebar-btn" class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200" title="Modo Enfocado">
                             <svg data-lucide="panel-left-close" class="w-5 h-5"></svg>
                         </button>
                     </div>
@@ -457,6 +362,7 @@
                         </div>
                     </div>
                 </div>
+            </div> <!-- Cierre tab-choice -->
 
             <!-- TAB: MODO ORAL / ESTUDIO -->
             <div id="tab-simulador" class="tab-panel space-y-6">
@@ -515,7 +421,7 @@
                 </div>
             </div>
 
-            <!-- TAB: ADMINISTRAR TEMAS (Ex-Unidades) -->
+            <!-- TAB: ADMINISTRAR TEMAS -->
             <div id="tab-topics" class="tab-panel space-y-6">
                 <h2 class="text-2xl font-bold text-gray-800">Administrar Temas</h2>
                 <p class="text-gray-600">Organiza tus temas. Fusiona duplicados, renombra y crea subtemas para practicar.</p>
@@ -532,21 +438,20 @@
                 <div id="topic-manager-list" class="space-y-2"></div>
             </div>
 
-            <!-- TAB: HOJA de RUTA (MATERIA O GLOBAL) -->
+            <!-- TAB: HOJA de RUTA -->
             <div id="tab-roadmap" class="tab-panel space-y-6">
                 <h2 id="roadmap-title" class="text-2xl font-bold text-gray-800">Hoja de Ruta</h2>
                 <p id="roadmap-subtitle" class="text-gray-600">Cronograma de tus próximos repasos (Orales y Flashcards).</p>
                 
                 <div id="roadmap-loader" class="loader hidden"></div>
                 <div id="roadmap-list" class="space-y-6"></div>
-                <!-- Contenedor para la sesión de práctica de Hoja de Ruta -->
                 <div id="roadmap-practice-session" class="hidden"></div>
             </div>
 
         </div>
     </div>
 
-    <!-- Modal de Error -->
+    <!-- Modales -->
     <div id="error-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
         <div class="bg-white p-6 rounded-lg max-w-sm w-full shadow-2xl">
             <h3 id="error-title" class="text-red-600 font-bold text-lg mb-2">Atención</h3>
@@ -555,7 +460,6 @@
         </div>
     </div>
     
-    <!-- NUEVO: Modal de Confirmación para Borrar -->
     <div id="confirm-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
         <div class="bg-white p-6 rounded-lg max-w-sm w-full shadow-2xl">
             <h3 id="confirm-title" class="text-yellow-600 font-bold text-lg mb-2">¿Estás seguro?</h3>
@@ -567,30 +471,14 @@
         </div>
     </div>
 
-    <!-- Modal Edición de Flashcard (Anki) -->
     <div id="edit-qa-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center p-4 z-50">
         <div class="bg-white p-6 rounded-lg max-w-lg w-full shadow-2xl">
-            <!-- Título dinámico -->
             <h3 id="edit-qa-title" class="text-xl font-bold text-gray-800 mb-4">Editar Flashcard</h3>
-            <!-- Campos ocultos -->
-            <input type="hidden" id="edit-qa-id">
-            <input type="hidden" id="edit-qa-subject">
-            <input type="hidden" id="edit-qa-unit">
-            <input type="hidden" id="edit-qa-topic">
-            
+            <input type="hidden" id="edit-qa-id"><input type="hidden" id="edit-qa-subject"><input type="hidden" id="edit-qa-unit"><input type="hidden" id="edit-qa-topic">
             <div class="space-y-3">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Pregunta</label>
-                    <textarea id="edit-qa-question" rows="3" class="w-full p-2 border border-gray-300 rounded"></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Respuesta</label>
-                    <textarea id="edit-qa-answer" rows="4" class="w-full p-2 border border-gray-300 rounded"></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">URL de Imagen (Opcional)</label>
-                    <input type="text" id="edit-qa-image" class="w-full p-2 border border-gray-300 rounded" placeholder="https://ejemplo.com/imagen.jpg">
-                </div>
+                <div><label class="block text-sm font-medium text-gray-700">Pregunta</label><textarea id="edit-qa-question" rows="3" class="w-full p-2 border border-gray-300 rounded"></textarea></div>
+                <div><label class="block text-sm font-medium text-gray-700">Respuesta</label><textarea id="edit-qa-answer" rows="4" class="w-full p-2 border border-gray-300 rounded"></textarea></div>
+                <div><label class="block text-sm font-medium text-gray-700">URL de Imagen (Opcional)</label><input type="text" id="edit-qa-image" class="w-full p-2 border border-gray-300 rounded" placeholder="https://ejemplo.com/imagen.jpg"></div>
             </div>
             <div class="mt-6 flex justify-end gap-3">
                 <button id="edit-qa-cancel" class="px-4 py-2 bg-gray-200 font-semibold rounded-lg hover:bg-gray-300">Cancelar</button>
@@ -599,29 +487,14 @@
         </div>
     </div>
 
-    <!-- INICIO: NUEVO Modal Edición de MCQ -->
     <div id="edit-mcq-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center p-4 z-50">
         <div class="bg-white p-6 rounded-lg max-w-2xl w-full shadow-2xl overflow-y-auto max-h-[90vh]">
             <h3 class="text-xl font-bold text-gray-800 mb-4">Editar Pregunta Choice</h3>
             <input type="hidden" id="edit-mcq-id">
-            
             <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Pregunta</label>
-                    <textarea id="edit-mcq-question" rows="3" class="w-full p-2 border border-gray-300 rounded"></textarea>
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Opciones (Marcar la correcta)</label>
-                    <div id="edit-mcq-options-container" class="space-y-2 mt-1">
-                        <!-- Las opciones se generarán aquí dinámicamente -->
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Justificación (para Modo Inicial)</label>
-                    <textarea id="edit-mcq-justification" rows="4" class="w-full p-2 border border-gray-300 rounded"></textarea>
-                </div>
+                <div><label class="block text-sm font-medium text-gray-700">Pregunta</label><textarea id="edit-mcq-question" rows="3" class="w-full p-2 border border-gray-300 rounded"></textarea></div>
+                <div><label class="block text-sm font-medium text-gray-700">Opciones (Marcar la correcta)</label><div id="edit-mcq-options-container" class="space-y-2 mt-1"></div></div>
+                <div><label class="block text-sm font-medium text-gray-700">Justificación (para Modo Inicial)</label><textarea id="edit-mcq-justification" rows="4" class="w-full p-2 border border-gray-300 rounded"></textarea></div>
             </div>
             <div class="mt-6 flex justify-end gap-3">
                 <button id="edit-mcq-cancel" class="px-4 py-2 bg-gray-200 font-semibold rounded-lg hover:bg-gray-300">Cancelar</button>
@@ -629,9 +502,7 @@
             </div>
         </div>
     </div>
-    <!-- FIN: NUEVO Modal Edición de MCQ -->
 
-    <!-- Input oculto para PDF -->
     <input type="file" id="hidden-pdf-input" accept=".pdf" style="display: none;">
 
     <script type="module">
