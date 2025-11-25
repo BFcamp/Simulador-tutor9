@@ -2984,35 +2984,77 @@
             }
         }
         // --- FIN: NUEVA FUNCIÓN PARA MODO ENFOCADO ---
-       // --- UTILS & API KEY MANAGEMENT ---
+      // --- UTILS & API KEY MANAGEMENT (MEJORADO) ---
         
-        // 1. Cargar API Key del almacenamiento local al iniciar
+        // 1. Cargar API Key y UserID del almacenamiento local al iniciar
         let apiKey = localStorage.getItem('gemini_api_key_custom') || "";
+        let userId = localStorage.getItem('my_sync_userId');
 
-        // 2. Listener para guardar la clave (se auto-ejecuta al cargar este bloque)
-        setTimeout(() => {
+        // 2. Lógica de inicialización inmediata (para mostrar ID rápido)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mostrar ID si existe
+            if (userId) {
+                const idDisplay = document.getElementById('sync-id-display');
+                const idSpan = document.getElementById('user-id');
+                if (idDisplay && idSpan) {
+                    idSpan.textContent = userId;
+                    idDisplay.style.display = 'flex'; // Forzamos que se vea
+                }
+            } else {
+                // Si no hay ID, asegurar que el modal de sync se abra luego
+                setTimeout(() => {
+                    const syncModal = document.getElementById('sync-modal');
+                    if(syncModal) syncModal.style.display = 'flex';
+                }, 1000);
+            }
+
+            setupApiKeyUI();
+        });
+
+        // 3. Configuración de la UI de API Key con Feedback Visual
+        function setupApiKeyUI() {
             const saveBtn = document.getElementById('save-api-key-btn');
-            if(saveBtn) {
+            const input = document.getElementById('api-key-input');
+            const modal = document.getElementById('api-key-modal');
+
+            // Pre-llenar si existe
+            if(apiKey && input) input.value = apiKey;
+
+            if(saveBtn && input && modal) {
                 saveBtn.onclick = () => {
-                    const val = document.getElementById('api-key-input').value.trim();
+                    const val = input.value.trim();
                     if(!val) return alert("Por favor ingresa una clave.");
                     
+                    // Guardar
                     localStorage.setItem('gemini_api_key_custom', val);
                     apiKey = val;
-                    document.getElementById('api-key-modal').style.display = 'none';
-                    showError("API Key guardada correctamente. Intenta de nuevo.", false);
+                    
+                    // --- FEEDBACK VISUAL (UX) ---
+                    const originalText = saveBtn.innerText;
+                    saveBtn.innerText = "¡Guardado Correctamente!";
+                    saveBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                    saveBtn.classList.add('bg-green-600', 'hover:bg-green-700'); // Botón verde
+                    
+                    // Esperar 1.5 segundos antes de cerrar para que el usuario lea el mensaje
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                        // Restaurar botón
+                        saveBtn.innerText = originalText;
+                        saveBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                        saveBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                        
+                        // Recargar página suavemente para aplicar cambios si es necesario, 
+                        // o simplemente dejar seguir.
+                    }, 1500);
                 };
             }
-            // Pre-llenar si existe
-            if(apiKey && document.getElementById('api-key-input')) {
-                document.getElementById('api-key-input').value = apiKey;
-            }
-        }, 500);
+        }
 
         async function callGeminiAPI(userQuery, expectJson, systemPrompt = null, generationConfig = null) {
+            // Verificar si tenemos key, si no, abrir modal
             if (!apiKey) {
                 document.getElementById('api-key-modal').style.display = 'flex';
-                throw new Error("No hay API Key configurada. Por favor ingrésala en el menú.");
+                throw new Error("No hay API Key. Esperando configuración del usuario...");
             }
 
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
@@ -3030,7 +3072,13 @@
                 // MANEJO DE ERROR 403 (Bloqueo/Clave inválida)
                 if (resp.status === 403) {
                     document.getElementById('api-key-modal').style.display = 'flex';
-                    showError("Error 403: Tu API Key no es válida o expiró. Por favor actualízala.");
+                    // Alerta más amigable en el modal (opcional, podrías pintar el borde del input en rojo)
+                    const input = document.getElementById('api-key-input');
+                    if(input) {
+                        input.style.borderColor = 'red';
+                        input.value = '';
+                        input.placeholder = "La clave anterior expiró o es inválida.";
+                    }
                     throw new Error("API Key inválida (403).");
                 }
                 
@@ -3052,7 +3100,6 @@
                 document.getElementById('api-key-modal').style.display = 'flex';
                 throw new Error("Falta API Key");
             }
-            // Nota: El modelo TTS también requiere la key en la URL
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
 
             const payload = {
@@ -3088,7 +3135,7 @@
 
         function showError(msg, isError = true) {
             const m = document.getElementById('error-modal');
-            if(!m) return alert(msg); // Fallback si el modal de error no existe
+            if(!m) return alert(msg); 
             const t = document.getElementById('error-msg');
             const h = document.getElementById('error-title');
             t.textContent = msg;
@@ -3096,8 +3143,11 @@
             h.className = isError ? "text-red-600 font-bold text-lg mb-2" : "text-green-600 font-bold text-lg mb-2";
             m.style.display = 'flex';
         }
+
         // --- RUN ---
         init();
+        // Llamamos a setupApiKeyUI aquí también por seguridad si DOMContentLoaded ya pasó
+        setupApiKeyUI(); 
     </script>
 </body>
 </html>
