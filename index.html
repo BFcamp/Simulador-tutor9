@@ -2955,15 +2955,11 @@
         }
         // --- FIN: NUEVA FUNCIÓN PARA MODO ENFOCADO ---
         // --- UTILS ---
-        const API_KEY = "AIzaSyA1RYWX9v5UFVVGVcI9KKyPXK3BDnIRkqw";
+        const API_KEY = ""; // DEJAR VACÍO: El sistema inyecta la clave automáticamente en este entorno
 
-        // async function callGeminiAPI(prompt, expectJson) { // --- ESTA ES LA FUNCIÓN V15 INCORRECTA
-        //     const url = `https...`;
-        //     ...
-        // }
-        
-        // --- INICIO: Reemplazo de callGeminiAPI con la versión de V6 ---
+        // --- Función para llamar a la IA (Gemini 2.5) ---
         async function callGeminiAPI(userQuery, expectJson, systemPrompt = null, generationConfig = null) {
+            // Usamos la variable API_KEY que definimos arriba (vacía)
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
             
             const payload = {
@@ -3008,7 +3004,6 @@
                 }
             }
         }
-        // --- FIN: Reemplazo de callGeminiAPI ---
 
         function showError(msg, isError = true) {
             const m = document.getElementById('error-modal');
