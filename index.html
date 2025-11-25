@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador Tutor IA - V17 (Choice 2.3 & Focus Mode)</title>
+    <title>Simulador Tutor IA - V18 (GitHub Safe & UX Fixes)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -206,43 +206,37 @@
         </div>
     </div>
 
+    <!-- Modal API Key (NUEVO) -->
+    <div id="api-key-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[60]" style="display: none;">
+        <div class="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full relative">
+            <button onclick="document.getElementById('api-key-modal').style.display='none'" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold text-xl">✕</button>
+            <h3 class="text-2xl font-bold text-gray-800">Configurar Gemini API</h3>
+            <p class="mt-3 text-sm text-gray-600">
+                Para evitar bloqueos de Google al usar GitHub, la clave no se guarda en el código.
+                <br>Se guardará segura en tu navegador.
+            </p>
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-700">Tu Gemini API Key:</label>
+                <input type="password" id="api-key-input" placeholder="AIzaSy..." class="w-full mt-1 p-2 border border-gray-300 rounded-lg shadow-sm">
+                <button id="save-api-key-btn" class="mt-3 w-full px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-all duration-200">Guardar Clave</button>
+                <p class="mt-2 text-xs text-center text-gray-400">Consigue una gratis en <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline text-indigo-500">Google AI Studio</a></p>
+            </div>
+        </div>
+    </div>
+
     <div class="max-w-6xl mx-auto p-4 sm:p-8">
         
         <!-- Header -->
-        <header class="mb-8 bg-white shadow-lg rounded-xl p-6 sm:p-8">
+        <header class="mb-8 bg-white shadow-lg rounded-xl p-6 sm:p-8 relative">
+            <!-- Botón Config API Key (NUEVO) -->
+            <button id="open-api-key-btn" class="absolute top-6 right-6 flex items-center gap-2 px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg text-sm font-semibold hover:bg-indigo-100 border border-indigo-200 transition-colors z-40">
+                <svg data-lucide="key" class="w-4 h-4"></svg>
+                <span>Configurar API Key</span>
+            </button>
+
             <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">Simulador Tutor IA</h1>
             <p class="text-lg text-gray-600">Entrenamiento inteligente: Oral, Choice y Repaso Espaciado.</p>
-            <!-- 1. Botón de Configuración (Pégalo dentro de tu <header> o al principio del body) -->
-<div class="fixed top-4 right-4 z-40">
-    <button onclick="document.getElementById('api-key-modal').style.display='flex'" class="flex items-center gap-2 px-4 py-2 bg-white text-indigo-700 rounded-full shadow-lg font-bold hover:bg-indigo-50 border border-indigo-200 transition-all">
-        <svg data-lucide="key" class="w-4 h-4"></svg>
-        <span>API Key</span>
-    </button>
-</div>
-
-<!-- 2. Modal de API Key (Pégalo junto a tus otros modales, antes de cerrar el body) -->
-<div id="api-key-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-[60]" style="display: none;">
-    <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full border border-gray-200">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-extrabold text-gray-900">Configurar Gemini API</h3>
-            <button onclick="document.getElementById('api-key-modal').style.display='none'" class="text-gray-400 hover:text-gray-600">✕</button>
-        </div>
-        <p class="text-sm text-gray-600 mb-4 bg-yellow-50 p-3 rounded-lg border border-yellow-100">
-            ⚠️ <strong>Para evitar errores 403:</strong> Google bloquea las claves públicas en GitHub. Por favor, ingresa tu propia clave. Se guardará solo en tu navegador.
-        </p>
-        <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Tu Clave API (Gemini)</label>
-            <input type="password" id="api-key-input" placeholder="Pega aquí tu clave AIzaSy..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
-            <button id="save-api-key-btn" class="mt-4 w-full py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 shadow-md transition-transform transform active:scale-95">Guardar y Usar</button>
-        </div>
-        <div class="mt-4 text-center">
-            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-xs text-indigo-500 font-semibold hover:underline flex items-center justify-center gap-1">
-                <span>Obtener clave gratis en Google AI Studio</span>
-                <svg data-lucide="external-link" class="w-3 h-3"></svg>
-            </a>
-        </div>
-    </div>
-</div>
+            
             <!-- Selector de Materia -->
             <div id="subject-header" class="mt-6 border-t border-gray-200 pt-4">
                 <label class="block text-base font-semibold text-gray-800 mb-2">Materia Actual:</label>
@@ -255,6 +249,7 @@
                     <button id="add-subject-btn" class="mt-2 sm:mt-0 px-5 py-2.5 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-900">Crear</button>
                 </div>
             </div>
+            <!-- Corrección ID: Usamos style flex directamente en el HTML si se desea, o lo manejamos con JS pero con display flex -->
             <div id="sync-id-display" class="mt-3 text-xs text-gray-500 flex items-center gap-2" style="display: none;">
                 <span>ID: <span id="user-id" class="font-mono bg-gray-100 p-1 rounded">...</span></span>
                 <button id="change-sync-id" class="px-2 py-0.5 bg-gray-200 text-gray-700 rounded text-xs hover:bg-gray-300">Cambiar ID</button>
@@ -566,6 +561,9 @@
         let unsubscribeReview = null;
         let unsubscribeRoadmap = null;
         
+        // --- NUEVO: Estado para API Key ---
+        let geminiApiKey = localStorage.getItem('gemini_api_key') || "";
+
         // Estado para Modo Choice
         let cachedMcqs = []; 
         let currentPracticeTopic = null;
@@ -655,13 +653,17 @@
 
         // --- INICIALIZACIÓN ---
         async function init() {
+            // Re-leer userId por si acaso
+            if (!userId) userId = localStorage.getItem('my_sync_userId');
+
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     if (!userId) {
                         document.getElementById('sync-modal').style.display = 'flex';
                     } else {
                         document.getElementById('user-id').textContent = userId;
-                        document.getElementById('sync-id-display').style.display = 'block';
+                        // CORRECCIÓN: Usar 'flex' para mantener el diseño
+                        document.getElementById('sync-id-display').style.display = 'flex'; 
                         await loadSubjects(); 
                         els.subjectHeader.style.display = 'block'; // Mostrar selector
                         switchTab(currentTab); // Cargar la pestaña inicial (Material)
@@ -690,20 +692,44 @@
             document.getElementById('generate-sync-id').onclick = () => {
                 localStorage.setItem('my_sync_userId', crypto.randomUUID()); location.reload();
             };
-
-            // NUEVO: Botón para cambiar ID
             document.getElementById('change-sync-id').onclick = () => {
                 const newId = prompt("Ingresa tu ID de Sincronización. (Dejar en blanco para generar uno nuevo).", userId);
-                if (newId === null) return; // Apretó "Cancelar"
-                
-                if (newId.trim() === "") {
-                    // Generar uno nuevo
-                    localStorage.setItem('my_sync_userId', crypto.randomUUID());
-                } else {
-                    // Usar el que ingresó
-                    localStorage.setItem('my_sync_userId', newId.trim());
-                }
+                if (newId === null) return; 
+                if (newId.trim() === "") { localStorage.setItem('my_sync_userId', crypto.randomUUID()); } 
+                else { localStorage.setItem('my_sync_userId', newId.trim()); }
                 location.reload();
+            };
+
+            // NUEVO: Listeners API Key Modal con MEJOR UX
+            document.getElementById('open-api-key-btn').onclick = () => {
+                document.getElementById('api-key-input').value = geminiApiKey;
+                document.getElementById('api-key-modal').style.display = 'flex';
+            };
+            
+            document.getElementById('save-api-key-btn').onclick = () => {
+                const key = document.getElementById('api-key-input').value.trim();
+                const btn = document.getElementById('save-api-key-btn');
+                
+                if (key) {
+                    geminiApiKey = key;
+                    localStorage.setItem('gemini_api_key', key);
+                    
+                    // Feedback visual
+                    const originalText = btn.textContent;
+                    btn.textContent = "¡Guardado!";
+                    btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                    btn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    
+                    setTimeout(() => {
+                        document.getElementById('api-key-modal').style.display = 'none';
+                        // Restaurar botón
+                        btn.textContent = originalText;
+                        btn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                        btn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    }, 1000);
+                } else {
+                    showError("Por favor, ingresa una clave válida.");
+                }
             };
 
             // Subjects
@@ -761,40 +787,23 @@
 
             // --- INICIO: Listeners para Modo Estudio (de V6) ---
             els.syllabusBrowser.addEventListener('click', (e) => {
-                // Maneja el toggle del acordeón de Unidad
                 const unitBtn = e.target.closest('.unit-toggle-btn');
                 if (unitBtn) {
                     const content = unitBtn.nextElementSibling;
-                    // Reutilizamos la función toggleAccordion que ya arreglamos
                     toggleAccordion(unitBtn, content); 
-                    return; // Evita que se dispare el de tema
+                    return;
                 }
-                
-                // Maneja la selección de un Tema
                 const topicBtn = e.target.closest('.syllabus-topic-btn');
-                if (topicBtn) {
-                    handleStudyTopicSelect(topicBtn);
-                }
+                if (topicBtn) handleStudyTopicSelect(topicBtn);
             });
 
             document.getElementById('study-output').addEventListener('click', (e) => {
                 const answerBtn = e.target.closest('.answer-btn');
-                if (answerBtn) {
-                    handleAnswerClick(answerBtn);
-                    return;
-                }
-                
+                if (answerBtn) { handleAnswerClick(answerBtn); return; }
                 const saveBtn = e.target.closest('.save-btn');
-                if (saveBtn) {
-                    handleSaveClick(saveBtn);
-                    return;
-                }
-
+                if (saveBtn) { handleSaveClick(saveBtn); return; }
                 const generateMoreBtn = e.target.closest('.generate-more-btn');
-                if (generateMoreBtn) {
-                    handleGenerateMoreQuestions(generateMoreBtn);
-                    return;
-                }
+                if (generateMoreBtn) { handleGenerateMoreQuestions(generateMoreBtn); return; }
             });
             // --- FIN: Listeners para Modo Estudio (de V6) ---
 
@@ -2826,8 +2835,12 @@
         // --- INICIO: Funciones TTS (traídas de V6) ---
 
         async function callGeminiTTS(textToSpeak) {
-            // const apiKey = "AIzaSyA1RYWX9v5UFVVGVcI9KKyPXK3BDnIRkqw"; // Ya está definida globalmente
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${API_KEY}`;
+            // Usamos geminiApiKey global. Si está vacía, mostrará error modal en la siguiente llamada API.
+            if (!geminiApiKey) {
+                showError("Falta la API Key. Por favor, configúrala en el botón 'Configurar API Key'.");
+                throw new Error("No API Key");
+            }
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${geminiApiKey}`;
 
             const payload = {
                 contents: [{
@@ -2984,170 +2997,81 @@
             }
         }
         // --- FIN: NUEVA FUNCIÓN PARA MODO ENFOCADO ---
-      // --- UTILS & API KEY MANAGEMENT (MEJORADO) ---
+        // --- UTILS ---
         
-        // 1. Cargar API Key y UserID del almacenamiento local al iniciar
-        let apiKey = localStorage.getItem('gemini_api_key_custom') || "";
-        let userId = localStorage.getItem('my_sync_userId');
-
-        // 2. Lógica de inicialización inmediata (para mostrar ID rápido)
-        document.addEventListener('DOMContentLoaded', () => {
-            // Mostrar ID si existe
-            if (userId) {
-                const idDisplay = document.getElementById('sync-id-display');
-                const idSpan = document.getElementById('user-id');
-                if (idDisplay && idSpan) {
-                    idSpan.textContent = userId;
-                    idDisplay.style.display = 'flex'; // Forzamos que se vea
-                }
-            } else {
-                // Si no hay ID, asegurar que el modal de sync se abra luego
-                setTimeout(() => {
-                    const syncModal = document.getElementById('sync-modal');
-                    if(syncModal) syncModal.style.display = 'flex';
-                }, 1000);
-            }
-
-            setupApiKeyUI();
-        });
-
-        // 3. Configuración de la UI de API Key con Feedback Visual
-        function setupApiKeyUI() {
-            const saveBtn = document.getElementById('save-api-key-btn');
-            const input = document.getElementById('api-key-input');
-            const modal = document.getElementById('api-key-modal');
-
-            // Pre-llenar si existe
-            if(apiKey && input) input.value = apiKey;
-
-            if(saveBtn && input && modal) {
-                saveBtn.onclick = () => {
-                    const val = input.value.trim();
-                    if(!val) return alert("Por favor ingresa una clave.");
-                    
-                    // Guardar
-                    localStorage.setItem('gemini_api_key_custom', val);
-                    apiKey = val;
-                    
-                    // --- FEEDBACK VISUAL (UX) ---
-                    const originalText = saveBtn.innerText;
-                    saveBtn.innerText = "¡Guardado Correctamente!";
-                    saveBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-                    saveBtn.classList.add('bg-green-600', 'hover:bg-green-700'); // Botón verde
-                    
-                    // Esperar 1.5 segundos antes de cerrar para que el usuario lea el mensaje
-                    setTimeout(() => {
-                        modal.style.display = 'none';
-                        // Restaurar botón
-                        saveBtn.innerText = originalText;
-                        saveBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
-                        saveBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                        
-                        // Recargar página suavemente para aplicar cambios si es necesario, 
-                        // o simplemente dejar seguir.
-                    }, 1500);
-                };
-            }
-        }
-
+        // --- Función para llamar a la IA (Gemini 2.5) - SEGURA PARA GITHUB ---
         async function callGeminiAPI(userQuery, expectJson, systemPrompt = null, generationConfig = null) {
-            // Verificar si tenemos key, si no, abrir modal
-            if (!apiKey) {
-                document.getElementById('api-key-modal').style.display = 'flex';
-                throw new Error("No hay API Key. Esperando configuración del usuario...");
+            if (!geminiApiKey) {
+                 // Si no hay key, abrimos el modal
+                 document.getElementById('api-key-modal').style.display = 'flex';
+                 throw new Error("Falta configurar la API Key. Por favor ingrésala.");
             }
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiApiKey}`;
             
-            const payload = { contents: [{ parts: [{ text: userQuery }] }] };
-            if (systemPrompt) payload.systemInstruction = { parts: [{ text: systemPrompt }] };
-            
-            let finalGenConfig = generationConfig || {};
-            if (expectJson && !finalGenConfig.responseMimeType) finalGenConfig.responseMimeType = "application/json";
-            if (Object.keys(finalGenConfig).length > 0) payload.generationConfig = finalGenConfig;
-
-            try {
-                const resp = await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
-                
-                // MANEJO DE ERROR 403 (Bloqueo/Clave inválida)
-                if (resp.status === 403) {
-                    document.getElementById('api-key-modal').style.display = 'flex';
-                    // Alerta más amigable en el modal (opcional, podrías pintar el borde del input en rojo)
-                    const input = document.getElementById('api-key-input');
-                    if(input) {
-                        input.style.borderColor = 'red';
-                        input.value = '';
-                        input.placeholder = "La clave anterior expiró o es inválida.";
-                    }
-                    throw new Error("API Key inválida (403).");
-                }
-                
-                if (!resp.ok) {
-                    const errorBody = await resp.text();
-                    throw new Error(`Error API (${resp.status}): ${errorBody}`);
-                }
-                
-                const json = await resp.json();
-                return json.candidates[0].content.parts[0].text;
-            } catch (error) {
-                console.error("Fallo en llamada a Gemini:", error);
-                throw error;
-            }
-        }
-
-        async function callGeminiTTS(textToSpeak) {
-            if (!apiKey) {
-                document.getElementById('api-key-modal').style.display = 'flex';
-                throw new Error("Falta API Key");
-            }
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
-
             const payload = {
-                contents: [{ parts: [{ text: `Di con tono claro e informativo: ${textToSpeak}` }] }],
-                generationConfig: {
-                    responseModalities: ["AUDIO"],
-                    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } }
-                },
-                model: "gemini-2.5-flash-preview-tts"
+                contents: [{ parts: [{ text: userQuery }] }],
             };
 
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-                });
-                
-                if (response.status === 403) {
-                    document.getElementById('api-key-modal').style.display = 'flex';
-                    throw new Error("Error 403 en TTS: Key inválida.");
+            if (systemPrompt) {
+                payload.systemInstruction = {
+                    parts: [{ text: systemPrompt }]
+                };
+            }
+            
+            let finalGenConfig = generationConfig || {};
+            if (expectJson && !finalGenConfig.responseMimeType) {
+                 finalGenConfig.responseMimeType = "application/json";
+            }
+            
+            if (Object.keys(finalGenConfig).length > 0) {
+                payload.generationConfig = finalGenConfig;
+            }
+
+            let retries = 3;
+            while (retries > 0) {
+                try {
+                    const resp = await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+                    
+                    if (resp.status === 403) {
+                        // Si falla con 403, probablemente la key es inválida
+                        document.getElementById('api-key-modal').style.display = 'flex';
+                        showError("Error 403: Tu API Key parece inválida o expirada. Por favor actualízala.");
+                        throw new Error("API Key inválida (403)");
+                    }
+
+                    if (!resp.ok) {
+                        const errorBody = await resp.text();
+                        console.error("Error API:", errorBody);
+                        throw new Error(`Error de API: ${resp.status}`);
+                    }
+                    const json = await resp.json();
+                    if (!json.candidates || !json.candidates[0].content) {
+                         console.warn("Respuesta inválida:", json);
+                         throw new Error("Respuesta de IA inválida (sin 'candidates')");
+                    }
+                    return json.candidates[0].content.parts[0].text;
+                } catch (error) {
+                    console.error("Error en callGeminiAPI (intento restante " + (retries-1) + "):", error);
+                    retries--;
+                    if (retries === 0) throw error;
+                    await new Promise(res => setTimeout(res, 1000)); // Backoff
                 }
-
-                if (!response.ok) throw new Error(`Error TTS: ${response.status}`);
-
-                const result = await response.json();
-                const part = result?.candidates?.[0]?.content?.parts?.[0];
-                if (part?.inlineData) return { audioData: part.inlineData.data, mimeType: part.inlineData.mimeType };
-                throw new Error("No se recibió audio.");
-            } catch (error) {
-                console.error("TTS Error:", error);
-                throw error;
             }
         }
 
         function showError(msg, isError = true) {
             const m = document.getElementById('error-modal');
-            if(!m) return alert(msg); 
             const t = document.getElementById('error-msg');
             const h = document.getElementById('error-title');
             t.textContent = msg;
-            h.textContent = isError ? "Atención" : "Éxito";
+            h.textContent = isError ? "Error" : "Éxito";
             h.className = isError ? "text-red-600 font-bold text-lg mb-2" : "text-green-600 font-bold text-lg mb-2";
             m.style.display = 'flex';
         }
 
         // --- RUN ---
         init();
-        // Llamamos a setupApiKeyUI aquí también por seguridad si DOMContentLoaded ya pasó
-        setupApiKeyUI(); 
     </script>
 </body>
 </html>
